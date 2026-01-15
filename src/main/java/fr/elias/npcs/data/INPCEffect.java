@@ -5,9 +5,21 @@ package fr.elias.npcs.data;
  */
 public interface INPCEffect {
 
-    String getType();
+    /**
+     * Get the effect type (e.g., "SPEED", "REGENERATION")
+     * @return Effect type name
+     */
+    String getEffectType();
 
-    String getData();
+    /**
+     * Get effect duration in ticks
+     * @return Duration
+     */
+    int getDuration();
 
-    boolean isLooping();
+    /**
+     * Get effect amplifier (power level)
+     * @return Amplifier
+     */
+    int getAmplifier();
 }

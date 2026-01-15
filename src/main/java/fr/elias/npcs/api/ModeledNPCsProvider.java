@@ -12,3 +12,5 @@ public class ModeledNPCsProvider {
         return ModeledNPCsAPI.get();
     }
 }
+
+

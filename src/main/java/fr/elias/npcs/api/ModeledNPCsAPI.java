@@ -30,6 +30,7 @@ public abstract class ModeledNPCsAPI {
     public static ModeledNPCsAPI get() {
         return instance;
     }
+
     /**
      * Internal: Register implementation (called by plugin)
      */
@@ -46,7 +47,7 @@ public abstract class ModeledNPCsAPI {
      * @param id The NPC ID
      * @return NPCData or null if not found
      */
-    public abstract INPCData getNPCById(int id);
+    public abstract INPCData getNPCById(int id); // ✅ Changed from NPCData to INPCData
 
     /**
      * Get the in-game entity for an NPC
@@ -65,7 +66,7 @@ public abstract class ModeledNPCsAPI {
      * Get all loaded NPCs
      * @return Map of NPC ID to NPCData
      */
-    public abstract Map<Integer, INPCData> getAllNPCs();
+    public abstract Map<Integer, INPCData> getAllNPCs(); // ✅ Changed from NPCData to INPCData
 
     // ========================================================================
     // DISPLAY NAMES & NAMETAGS
@@ -214,7 +215,7 @@ public abstract class ModeledNPCsAPI {
      * @param npcId The NPC ID
      * @return List of NPCEffect
      */
-    public abstract List<INPCEffect> getNPCEffects(int npcId);
+    public abstract List<INPCEffect> getNPCEffects(int npcId); // ✅ Changed from NPCEffect to INPCEffect
 
     /**
      * Play interaction effects

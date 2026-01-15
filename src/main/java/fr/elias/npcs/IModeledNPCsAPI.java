@@ -1,4 +1,4 @@
-package fr.elias.npcs.api;
+package fr.elias.npcs;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

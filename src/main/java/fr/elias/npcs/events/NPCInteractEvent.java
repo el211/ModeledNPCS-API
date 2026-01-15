@@ -1,4 +1,4 @@
-package fr.elias.npcs.api.events;
+package fr.elias.npcs.events;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;

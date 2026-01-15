@@ -1,4 +1,4 @@
-package fr.elias.npcs.api.data;
+package fr.elias.npcs.data;
 
 import org.bukkit.Location;
 import java.util.List;

@@ -342,4 +342,45 @@ public abstract class ModeledNPCsAPI {
      * @param npcId The NPC ID
      */
     public abstract void openDialog(Player player, int npcId);
+
+    // ========================================================================
+    // GLOWING SYSTEM
+    // ========================================================================
+
+    /**
+     * Set NPC glow color for a specific player
+     * @param npcId The NPC ID
+     * @param player The player who will see the glow
+     * @param color The glow color (e.g., ChatColor.RED, ChatColor.YELLOW, ChatColor.GREEN)
+     */
+    public abstract void setNPCGlow(int npcId, Player player, org.bukkit.ChatColor color);
+
+    /**
+     * Remove NPC glow for a specific player
+     * @param npcId The NPC ID
+     * @param player The player
+     */
+    public abstract void removeNPCGlow(int npcId, Player player);
+
+    /**
+     * Set NPC glow color for all online players
+     * @param npcId The NPC ID
+     * @param color The glow color
+     */
+    public abstract void setNPCGlowForAll(int npcId, org.bukkit.ChatColor color);
+
+    /**
+     * Remove NPC glow for all online players
+     * @param npcId The NPC ID
+     */
+    public abstract void removeNPCGlowForAll(int npcId);
+
+    /**
+     * Toggle NPC glow on/off for a specific player
+     * @param npcId The NPC ID
+     * @param player The player
+     * @param enabled Whether to enable or disable glow
+     * @param color The glow color (only used if enabled is true)
+     */
+    public abstract void toggleNPCGlow(int npcId, Player player, boolean enabled, org.bukkit.ChatColor color);
 }

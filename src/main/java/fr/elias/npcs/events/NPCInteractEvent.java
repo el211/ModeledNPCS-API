@@ -1,6 +1,6 @@
 package fr.elias.npcs.events;
 
-import fr.elias.npcs.data.INPCData;  // ✅ FIXED: Changed from api to data
+import fr.elias.npcs.data.INPCData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;

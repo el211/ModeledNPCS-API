@@ -16,7 +16,7 @@ import java.util.UUID;
  * Complete API for NPC management, AI, pathfinding, escorts,
  * ModelEngine/MythicMobs integration, traders, quests, and dialogs.
  *
- * @version 7.7b
+ * @version 7.8
  * @author Elias
  */
 public abstract class ModeledNPCsAPI {
@@ -47,7 +47,7 @@ public abstract class ModeledNPCsAPI {
      * @param id The NPC ID
      * @return NPCData or null if not found
      */
-    public abstract INPCData getNPCById(int id); // ✅ Changed from NPCData to INPCData
+    public abstract INPCData getNPCById(int id); //  Changed from NPCData to INPCData
 
     /**
      * Get the in-game entity for an NPC
@@ -66,7 +66,7 @@ public abstract class ModeledNPCsAPI {
      * Get all loaded NPCs
      * @return Map of NPC ID to NPCData
      */
-    public abstract Map<Integer, INPCData> getAllNPCs(); // ✅ Changed from NPCData to INPCData
+    public abstract Map<Integer, INPCData> getAllNPCs(); // Changed from NPCData to INPCData
 
     // ========================================================================
     // DISPLAY NAMES & NAMETAGS
@@ -215,7 +215,7 @@ public abstract class ModeledNPCsAPI {
      * @param npcId The NPC ID
      * @return List of NPCEffect
      */
-    public abstract List<INPCEffect> getNPCEffects(int npcId); // ✅ Changed from NPCEffect to INPCEffect
+    public abstract List<INPCEffect> getNPCEffects(int npcId); // Changed from NPCEffect to INPCEffect
 
     /**
      * Play interaction effects
@@ -383,4 +383,220 @@ public abstract class ModeledNPCsAPI {
      * @param color The glow color (only used if enabled is true)
      */
     public abstract void toggleNPCGlow(int npcId, Player player, boolean enabled, org.bukkit.ChatColor color);
+
+    // ========================================================================
+    // HOVER SYSTEM
+    // ========================================================================
+
+    /**
+     * Get the NPC the player is currently aiming at (hover detection).
+     * @param player The player
+     * @return NPC ID, or -1 if the player is not hovering any NPC
+     */
+    public abstract int getHoveredNPCId(Player player);
+
+    /**
+     * Check if a player is currently hovering a specific NPC.
+     * @param player The player
+     * @param npcId The NPC ID
+     * @return true if the player's crosshair is aimed at this NPC
+     */
+    public abstract boolean isPlayerHoveringNPC(Player player, int npcId);
+
+    /**
+     * Enable or disable hover detection for a specific NPC.
+     * Overrides the global npc.hover.enabled config on a per-NPC basis.
+     * Persisted to npc-extras.yml.
+     * @param npcId The NPC ID
+     * @param enabled true to enable, false to disable
+     */
+    public abstract void setNPCHoverEnabled(int npcId, boolean enabled);
+
+    /**
+     * Check if hover detection is enabled for a specific NPC.
+     * @param npcId The NPC ID
+     * @return true if hover is enabled for this NPC
+     */
+    public abstract boolean isNPCHoverEnabled(int npcId);
+
+    /**
+     * Set a per-NPC action-bar hint shown when a player hovers this NPC.
+     * Pass an empty string to fall back to the global hint_text in config.yml.
+     * Persisted to npc-extras.yml.
+     * @param npcId The NPC ID
+     * @param hint Hint text (supports &amp; color codes). Empty = use global default.
+     */
+    public abstract void setNPCHoverHint(int npcId, String hint);
+
+    /**
+     * Get the per-NPC hover hint text.
+     * @param npcId The NPC ID
+     * @return hint text, or empty string if using the global default
+     */
+    public abstract String getNPCHoverHint(int npcId);
+
+    /**
+     * Set a ModelEngine animation to loop while this NPC is hovered.
+     * The animation starts when the first player begins hovering and reverts to
+     * the normal idle animation when all players stop hovering.
+     * Pass an empty string to disable (keep idle animation during hover).
+     * Persisted to npc-extras.yml.
+     * @param npcId     The NPC ID
+     * @param animation ModelEngine animation name (e.g. "wave"), or empty string to disable
+     */
+    public abstract void setNPCHoverAnimation(int npcId, String animation);
+
+    /**
+     * Get the ModelEngine animation configured to play while this NPC is hovered.
+     * @param npcId The NPC ID
+     * @return animation name, or empty string if none configured
+     */
+    public abstract String getNPCHoverAnimation(int npcId);
+
+    // ========================================================================
+    // LUXDIALOGUES INTEGRATION
+    // ========================================================================
+
+    /**
+     * Check if the LuxDialogues plugin is installed and the integration is active.
+     * @return true if available
+     */
+    public abstract boolean isLuxDialoguesAvailable();
+
+    /**
+     * Open the LuxDialogues dialogue configured for this NPC.
+     * Reads lux_dialogue and lux_first_page from npc-extras.yml.
+     * @param player The player
+     * @param npcId The NPC ID
+     * @return true if the dialogue was triggered, false if not configured or unavailable
+     */
+    public abstract boolean triggerLuxDialogue(Player player, int npcId);
+
+    /**
+     * Check if a player is currently inside a LuxDialogues dialogue.
+     * @param player The player
+     * @return true if in dialogue
+     */
+    public abstract boolean isPlayerInLuxDialogue(Player player);
+
+    /**
+     * Set the LuxDialogues dialogue ID for an NPC.
+     * Persisted to npc-extras.yml.
+     * @param npcId The NPC ID
+     * @param dialogueId The LuxDialogues dialogue ID
+     */
+    public abstract void setNPCLuxDialogue(int npcId, String dialogueId);
+
+    /**
+     * Get the LuxDialogues dialogue ID configured for an NPC.
+     * @param npcId The NPC ID
+     * @return dialogue ID, or empty string if not configured
+     */
+    public abstract String getNPCLuxDialogue(int npcId);
+
+    /**
+     * Set the first page of the LuxDialogues dialogue for an NPC.
+     * Persisted to npc-extras.yml.
+     * @param npcId The NPC ID
+     * @param page Page identifier (e.g. "1")
+     */
+    public abstract void setNPCLuxFirstPage(int npcId, String page);
+
+    /**
+     * Get the LuxDialogues first page configured for an NPC.
+     * @param npcId The NPC ID
+     * @return page identifier, defaults to "1"
+     */
+    public abstract String getNPCLuxFirstPage(int npcId);
+
+    // ========================================================================
+    // NPC STATES
+    // ========================================================================
+
+    /**
+     * Set the active state for an NPC (e.g. "idle", "busy", "combat").
+     * The state drives the animation and hologram suffix defined in npc-extras.yml.
+     * Persisted to npc-extras.yml.
+     * @param npcId The NPC ID
+     * @param state State name. Use "default" to reset.
+     */
+    public abstract void setNPCState(int npcId, String state);
+
+    /**
+     * Get the active state for an NPC.
+     * @param npcId The NPC ID
+     * @return state name, defaults to "default"
+     */
+    public abstract String getNPCState(int npcId);
+
+    // ========================================================================
+    // SCHEDULE
+    // ========================================================================
+
+    /**
+     * Check if an NPC is currently within its configured active schedule window.
+     * Returns true if no schedule is configured (always active).
+     * @param npcId The NPC ID
+     * @return true if the NPC should be visible/interactable right now
+     */
+    public abstract boolean isNPCActive(int npcId);
+
+    /**
+     * Set the in-game hour schedule window for an NPC.
+     * Outside this window the NPC is treated as inactive.
+     * Persisted to npc-extras.yml. Pass -1 for both to disable scheduling.
+     * @param npcId The NPC ID
+     * @param startHour In-game hour to become active (0–23)
+     * @param endHour   In-game hour to become inactive (0–23)
+     */
+    public abstract void setNPCSchedule(int npcId, int startHour, int endHour);
+
+    /**
+     * Get the configured schedule start hour for an NPC.
+     * @param npcId The NPC ID
+     * @return start hour (0–23), or -1 if no schedule is set
+     */
+    public abstract int getNPCScheduleStart(int npcId);
+
+    /**
+     * Get the configured schedule end hour for an NPC.
+     * @param npcId The NPC ID
+     * @return end hour (0–23), or -1 if no schedule is set
+     */
+    public abstract int getNPCScheduleEnd(int npcId);
+
+    // ========================================================================
+    // HOLOGRAM ANIMATION
+    // ========================================================================
+
+    /**
+     * Set animated hologram frames for an NPC.
+     * The plugin cycles through these frames at the configured interval.
+     * Persisted to npc-extras.yml.
+     * @param npcId  The NPC ID
+     * @param frames List of text frames (supports &amp; color codes)
+     */
+    public abstract void setNPCHologramFrames(int npcId, List<String> frames);
+
+    /**
+     * Get the configured hologram animation frames for an NPC.
+     * @param npcId The NPC ID
+     * @return list of frames, or empty list if none configured
+     */
+    public abstract List<String> getNPCHologramFrames(int npcId);
+
+    /**
+     * Set the interval in ticks between hologram frame changes.
+     * Persisted to npc-extras.yml.
+     * @param npcId  The NPC ID
+     * @param ticks  Interval in ticks (e.g. 20 = 1 second)
+     */
+    public abstract void setNPCHologramFrameInterval(int npcId, int ticks);
+
+    /**
+     * Get the hologram animation frame interval for an NPC.
+     * @param npcId The NPC ID
+     * @return interval in ticks, defaults to 20
+     */
+    public abstract int getNPCHologramFrameInterval(int npcId);
 }
